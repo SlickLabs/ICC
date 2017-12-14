@@ -17,16 +17,18 @@ use ICC\Record\Condition;
 class Formatter implements FormatterInterface
 {
     /**
-     * @var array
+     * @var File
      */
-    private $records = [];
+    protected $file;
 
     /**
      * @param string $content
      * @return array
      */
-    public function format(string $content)
+    public function format(File $file, string $content)
     {
+        $this->file = $file;
+
         return $this->doFormat($this->toArray($content));
     }
 
@@ -62,7 +64,7 @@ class Formatter implements FormatterInterface
         $conditions = [];
 
         foreach ($data as $key => $line) {
-            $conditions[] = new Condition($line);
+            $conditions[] = new Condition($this->file->getId(), $line);
         }
 
         return $conditions;

@@ -81,15 +81,29 @@ class Condition extends AbstractRecord
     protected $type = 'Condition';
 
     /**
+     * @var integer
+     */
+    protected $fileId;
+
+    /**
      * Condition constructor.
      * @param array $values
      */
-    public function __construct(array $values)
+    public function __construct($fileId, array $values)
     {
+        $this->fileId = $fileId;
         $this->key = 'condition';
         $this->title = 'Conditions';
 
         parent::__construct($values);
+    }
+
+    /**
+     * @return integer
+     */
+    public function getFileId()
+    {
+        return $this->fileId;
     }
 
     /**

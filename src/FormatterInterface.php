@@ -18,7 +18,7 @@ interface FormatterInterface
      * @param string $content
      * @return mixed
      */
-    public function format(string $content);
+    public function format(File $file, string $content);
 
     /**
      * @param string $content

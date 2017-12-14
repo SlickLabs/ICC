@@ -66,7 +66,7 @@ class Reader extends AbstractReader
         $fileContent = $file->getContents();
 
         if ($this->formatter) {
-            $fileContent = $this->formatter->format($fileContent);
+            $fileContent = $this->formatter->format($file, $fileContent);
         }
 
         return $fileContent;

@@ -61,14 +61,14 @@ class Combiner
     {
         $first = true;
 
-        foreach ($files as $filePath) {
+        foreach ($files as $file) {
 
-            $fileResult = $this->reader->read(new File($filePath));
+            $fileResult = $this->reader->read(new File($file['id'], $file['path']));
 
             if (true === $first) {
                 $first = false;
                 $this->setBaseFile($fileResult);
-                $this->setHead($this->reader->getHead(new File($filePath)));
+                $this->setHead($this->reader->getHead(new File($file['id'], $file['path'])));
                 continue;
             }
 

@@ -15,8 +15,13 @@ $reader = new ICC\Reader($readerSettings);
 $combiner = new \ICC\Combiner($reader);
 
 $combiner->combine([
-    $dir .'/files/52610368.alfana.ICC',
-    $dir .'/files/55504192.rexel.lodema.ICC'
+    [
+        'id' => 2,
+        'path' => $dir .'/files/52610368.alfana.ICC',
+    ], [
+        'id' => 3,
+        'path' => $dir .'/files/55504192.rexel.lodema.ICC'
+    ]
 ]);
 
 file_put_contents(

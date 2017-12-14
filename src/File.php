@@ -22,12 +22,26 @@ class File
     protected $path;
 
     /**
+     * @var
+     */
+    protected $id;
+
+    /**
      * File constructor.
      * @param $path
      */
-    public function __construct($path)
+    public function __construct($id, $path)
     {
+        $this->id = $id;
         $this->setPath($path);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
     }
 
     /**
