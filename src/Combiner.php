@@ -55,7 +55,7 @@ class Combiner
 
     /**
      * @param array $files
-     * @return File $combinedFile
+     * @return void
      */
     public function combine(array $files = [])
     {
@@ -85,9 +85,9 @@ class Combiner
 
                     $discount = $condition->getValue('Discount1');
 
-                    // Discount is 1% more than base discount
-                    if (substr($baseDiscount, 0, 2) <= substr($discount, 0, 2) -1) {
-
+                    // Discount is 3% more than base discount
+                    $discountDivergence = ($discount - $baseDiscount) / 100;
+                    if ($discountDivergence >= 3) {
                         // Add match
                         $this->matches[] = [
                             'matchKey' => $matchKey,
@@ -113,6 +113,11 @@ class Combiner
         }
 
         $this->baseFile = $fileResult;
+    }
+
+    public function getBaseFile()
+    {
+        return $this->baseFile;
     }
 
     /**
