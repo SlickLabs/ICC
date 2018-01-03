@@ -87,7 +87,7 @@ class Combiner
 
                     // Discount is 3% more than base discount
                     $discountDivergence = ($discount - $baseDiscount) / 100;
-                    if ($discountDivergence >= 3) {
+                    if ($discountDivergence >= 4) {
                         // Add match
                         $this->matches[] = [
                             'matchKey' => $matchKey,
