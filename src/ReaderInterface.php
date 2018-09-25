@@ -17,4 +17,11 @@ interface ReaderInterface
      * @return mixed
      */
     public function getHead(File $file, FormatterInterface $formatter = null);
+
+    /**
+     * @param File $file
+     * @param FormatterInterface|null $formatter
+     * @return string
+     */
+    public function getHeadAsString(File $file, FormatterInterface $formatter = null);
 }

@@ -67,12 +67,6 @@ class Condition extends AbstractRecord
             'length' => 8,
             'format' => 'date'
         ],
-        9 => [
-            'key' => 'NVT',
-            'name' => 'N.v.t.',
-            'start' => 130,
-            'length' => 2
-        ]
     ];
 
     /**
@@ -147,7 +141,7 @@ class Condition extends AbstractRecord
     /**
      * @return array
      */
-    public function getFields()
+    public static function getFields()
     {
         return self::$fields;
     }

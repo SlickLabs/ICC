@@ -8,6 +8,8 @@
 
 namespace ICC;
 
+use ICC\Record\AbstractRecord;
+
 /**
  * Interface FormatterInterface
  * @package ICC
@@ -16,7 +18,7 @@ interface FormatterInterface
 {
     /**
      * @param string $content
-     * @return mixed
+     * @return AbstractRecord[]
      */
     public function format(File $file, string $content);
 
@@ -24,5 +26,11 @@ interface FormatterInterface
      * @param string $content
      * @return mixed
      */
-    public function toArray(string $content);
+    public function toArray(string $content, string $record = null);
+
+    /**
+     * @param bool $firstLineOnly
+     * @return mixed
+     */
+    public function setFirstLineOnly(bool $firstLineOnly);
 }

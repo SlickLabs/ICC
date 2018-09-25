@@ -8,6 +8,7 @@
 
 namespace ICC;
 
+use ICC\Record\AbstractRecord;
 use ICC\Record\Condition;
 
 /**
@@ -21,15 +22,17 @@ class Formatter implements FormatterInterface
      */
     protected $file;
 
+    protected $firstLineOnly = false;
+
     /**
      * @param string $content
-     * @return array
+     * @return AbstractRecord[]
      */
     public function format(File $file, string $content)
     {
         $this->file = $file;
 
-        return $this->doFormat($this->toArray($content));
+        return $this->doFormat($this->toArray($content, Condition::class));
     }
 
     /**
@@ -57,7 +60,7 @@ class Formatter implements FormatterInterface
 
     /**
      * @param $data
-     * @return mixed
+     * @return AbstractRecord[]
      */
     private function setConditions($data)
     {
@@ -72,33 +75,70 @@ class Formatter implements FormatterInterface
 
     /**
      * @param string $content
+     * @param string|null $record
      * @return array
      */
-    public function toArray(string $content)
+    public function toArray(string $content, string $record = null)
     {
         if (!$lines = explode(PHP_EOL, $content)) {
             return $lines;
         }
 
         $firstLine = true;
-
         foreach ($lines as $key => $line) {
             if ($firstLine) {
                 $firstLine = false;
-                continue;
+
+                if (!$this->firstLineOnly) {
+                    unset($lines[$key]);
+                    continue;
+                }
             }
 
             if ($line) {
                 $lines[$key] = [];
 
-                foreach (Condition::$fields as $field) {
+                foreach ($record::getFields() as $field) {
                     $lines[$key][$field['key']] = trim(substr($line, $field['start'], $field['length']));
                 }
+
+                if ($this->firstLineOnly) {
+                    return $lines[$key];
+                }
+
             } else {
+                unset($lines[$key]);
+            }
+            
+            if (isset($lines[$key]) && !is_array($lines[$key])) {
                 unset($lines[$key]);
             }
         }
 
         return $lines;
+    }
+
+    public function toString(string $content, string $record = null)
+    {
+        if (!$lines = explode(PHP_EOL, $content)) {
+            return $lines;
+        }
+
+        if ($this->firstLineOnly) {
+            return $lines[0];
+        }
+
+        $string = '';
+        foreach ($lines as $line) {
+            $string .= $line . PHP_EOL;
+        }
+        return $string;
+    }
+
+    public function setFirstLineOnly(bool $firstLineOnly)
+    {
+        $this->firstLineOnly = $firstLineOnly;
+
+        return $this;
     }
 }

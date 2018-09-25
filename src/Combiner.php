@@ -68,7 +68,7 @@ class Combiner
             if (true === $first) {
                 $first = false;
                 $this->setBaseFile($fileResult);
-                $this->setHead($this->reader->getHead(new File($file['id'], $file['path'])));
+                $this->setHead($this->reader->getHeadAsString(new File($file['id'], $file['path'])));
                 continue;
             }
 

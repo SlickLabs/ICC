@@ -26,7 +26,7 @@ interface RecordInterface
     /**
      * @return mixed
      */
-    public function getFields();
+    public static function getFields();
 
     /**
      * @return mixed

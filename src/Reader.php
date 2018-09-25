@@ -2,6 +2,9 @@
 
 namespace ICC;
 
+use ICC\Record\AbstractRecord;
+use ICC\Record\ConditionHead;
+
 /**
  * Class Reader
  * @package ICC
@@ -55,7 +58,8 @@ class Reader extends AbstractReader
     /**
      * @param File $file
      * @param FormatterInterface|null $formatter
-     * @return bool|File|null|string
+     * @return AbstractRecord[]
+     * @throws Exception\FileException
      */
     public function read(File $file, FormatterInterface $formatter = null)
     {
@@ -66,7 +70,7 @@ class Reader extends AbstractReader
         $fileContent = $file->getContents();
 
         if ($this->formatter) {
-            $fileContent = $this->formatter->format($file, $fileContent);
+            $fileContent = $this->formatter->setFirstLineOnly(false)->format($file, $fileContent);
         }
 
         return $fileContent;
@@ -76,6 +80,7 @@ class Reader extends AbstractReader
      * @param File $file
      * @param FormatterInterface|null $formatter
      * @return mixed
+     * @throws Exception\FileException
      */
     public function getHead(File $file, FormatterInterface $formatter = null)
     {
@@ -86,9 +91,30 @@ class Reader extends AbstractReader
         $fileContent = $file->getContents();
 
         if ($this->formatter) {
-            $fileContent = $this->formatter->toArray($fileContent);
+            $head = $this->formatter->setFirstLineOnly(true)->toArray($fileContent, ConditionHead::class);
         }
 
-        return $fileContent[0];
+        return $head;
+    }
+
+    /**
+     * @param File $file
+     * @param FormatterInterface|null $formatter
+     * @return string
+     * @throws Exception\FileException
+     */
+    public function getHeadAsString(File $file, FormatterInterface $formatter = null)
+    {
+        if ($formatter) {
+            $this->setFormatter($formatter);
+        }
+
+        $fileContent = $file->getContents();
+
+        if ($this->formatter) {
+            $head = $this->formatter->setFirstLineOnly(true)->toString($fileContent, ConditionHead::class);
+        }
+
+        return $head;
     }
 }

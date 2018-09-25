@@ -13,26 +13,79 @@ $readerSettings = [
 $reader = new ICC\Reader($readerSettings);
 
 $combiner = new \ICC\Combiner($reader);
-
 $combiner->combine([
     [
         'id' => 2,
-        'path' => $dir .'/files/52610368.alfana.ICC',
+        'path' => $dir .'/tests/resources/52610368.rexel.alfana.ICC',
     ], [
         'id' => 3,
-        'path' => $dir .'/files/55504192.rexel.lodema.ICC'
+        'path' => $dir .'/tests/resources/55504192.rexel.lodema.ICC'
     ]
 ]);
 
-file_put_contents(
-    $dir .'/files/combined.ICC',
-    $combiner->toString()
-);
+file_put_contents($dir . '/tests/resources/combined.ICC', $combiner->toString());
 
 echo "<pre>";
 print_r($combiner->getMatches());
 echo "</pre>";
-die();
+
+/**
+ * Read head
+ */
+$file = new ICC\File('test-ICC', $dir . '/tests/resources/test.ICC');
+
+$formatter = new \ICC\Formatter();
+$formatter->setFirstLineOnly(true);
+
+$reader = new ICC\Reader([
+    ICC\Reader::SETTING_FORMATTER => $formatter
+]);
+
+$reader = new ICC\Reader($readerSettings);
+$head = $reader->getHead($file);
+
+
+echo "<pre>";
+print_r($head);
+echo "</pre>";
+
+/**
+ * Read first line
+ */
+$file = new ICC\File('test-ICC', $dir . '/tests/resources/test.ICC');
+
+$formatter = new \ICC\Formatter();
+$formatter->setFirstLineOnly(false);
+
+$reader = new ICC\Reader([
+    ICC\Reader::SETTING_FORMATTER => $formatter
+]);
+
+$contents = $reader->read($file);
+$content = $contents[0];
+
+echo "<pre>";
+print_r($content);
+echo "</pre>";
+
+/**
+ * Read second line
+ */
+$file = new ICC\File('test-ICC', $dir . '/tests/resources/test.ICC');
+
+$formatter = new \ICC\Formatter();
+$formatter->setFirstLineOnly(false);
+
+$reader = new ICC\Reader([
+    ICC\Reader::SETTING_FORMATTER => $formatter
+]);
+
+$contents = $reader->read($file);
+$content = $contents[1];
+
+echo "<pre>";
+print_r($content);
+echo "</pre>";
 
 /**
  * TODO
