@@ -17,10 +17,11 @@ use ICC\Record\AbstractRecord;
 interface FormatterInterface
 {
     /**
+     * @param string $id
      * @param string $content
      * @return AbstractRecord[]
      */
-    public function format(File $file, string $content);
+    public function format(string $id, string $content);
 
     /**
      * @param string $content

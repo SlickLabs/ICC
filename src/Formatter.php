@@ -18,9 +18,9 @@ use ICC\Record\Condition;
 class Formatter implements FormatterInterface
 {
     /**
-     * @var File
+     * @var string
      */
-    protected $file;
+    protected $id;
 
     protected $firstLineOnly = false;
 
@@ -28,9 +28,9 @@ class Formatter implements FormatterInterface
      * @param string $content
      * @return AbstractRecord[]
      */
-    public function format(File $file, string $content)
+    public function format(string $id, string $content)
     {
-        $this->file = $file;
+        $this->id = $id;
 
         return $this->doFormat($this->toArray($content, Condition::class));
     }
@@ -67,7 +67,7 @@ class Formatter implements FormatterInterface
         $conditions = [];
 
         foreach ($data as $key => $line) {
-            $conditions[] = new Condition($this->file->getId(), $line);
+            $conditions[] = new Condition($this->id, $line);
         }
 
         return $conditions;

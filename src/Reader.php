@@ -70,7 +70,7 @@ class Reader extends AbstractReader
         $fileContent = $file->getContents();
 
         if ($this->formatter) {
-            $fileContent = $this->formatter->setFirstLineOnly(false)->format($file, $fileContent);
+            $fileContent = $this->formatter->setFirstLineOnly(false)->format($file->getId(), $fileContent);
         }
 
         return $fileContent;

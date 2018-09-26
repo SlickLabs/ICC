@@ -11,7 +11,7 @@ namespace ICC\Tests;
 use ICC\Reader;
 use PHPUnit\Framework\TestCase;
 
-class CombinerTest extends TestCase
+final class CombinerTest extends TestCase
 {
     /**
      * @return Reader
