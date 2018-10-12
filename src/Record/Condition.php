@@ -16,56 +16,55 @@ class Condition extends AbstractRecord
             'key' => 'DiscountGroup',
             'name' => 'Kortingsgroep',
             'start' => 0,
-            'length' => 20
+            'length' => 20,
         ],
         1 => [
             'key' => 'TradeItemId',
             'name' => 'Artikelnummer',
             'start' => 20,
-            'length' => 20
+            'length' => 20,
         ],
         2 => [
             'key' => 'Description',
             'name' => 'Omschrijving',
             'start' => 40,
-            'length' => 50
+            'length' => 50,
         ],
         3 => [
             'key' => 'Discount1',
             'name' => 'Korting1',
             'start' => 90,
-            'length' => 5
+            'length' => 5,
         ],
         4 => [
             'key' => 'Discount2',
             'name' => 'Korting2',
             'start' => 95,
-            'length' => 5
+            'length' => 5,
         ],
         5 => [
             'key' => 'Discount3',
             'name' => 'Korting3',
             'start' => 100,
-            'length' => 5
+            'length' => 5,
         ],
         6 => [
             'key' => 'NetPrice',
             'name' => 'NettoPrijs',
             'start' => 105,
-            'length' => 9
+            'length' => 9,
         ],
         7 => [
             'key' => 'StartDate',
             'name' => 'Ingangsdatum',
             'start' => 114,
-            'length' => 8
+            'length' => 8,
         ],
         8 => [
             'key' => 'EndDate',
             'name' => 'Einddatum',
             'start' => 122,
             'length' => 8,
-            'format' => 'date'
         ],
     ];
 
