@@ -98,6 +98,10 @@ class Combiner
                         // Replace current base condition
                         $this->baseFile[$matchKey] = $condition;
                     }
+                } else {
+                    // Simply add it because it does not yet exist
+                    $this->baseMap[$condition->getType()][$condition->getKey()] = $key;
+                    $this->baseFile[$matchKey] = $condition;
                 }
             }
         }
