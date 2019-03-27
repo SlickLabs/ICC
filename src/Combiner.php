@@ -141,7 +141,7 @@ class Combiner
         $string = $this->head;
         
         foreach ($this->baseFile as $condition) {
-            $string .= $condition->toString() . "\n\r";
+            $string .= $condition->toString() . "\r\n";
         }
 
         return $string;
