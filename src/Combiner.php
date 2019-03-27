@@ -72,7 +72,8 @@ class Combiner
                 continue;
             }
 
-            foreach ($fileResult as $condition) {
+            foreach ($fileResult as $key => $condition) {
+
                 if (!$condition instanceof RecordInterface) {
                     continue;
                 }
@@ -101,7 +102,7 @@ class Combiner
                 } else {
                     // Simply add it because it does not yet exist
                     $this->baseMap[$condition->getType()][$condition->getKey()] = $key;
-                    $this->baseFile[$matchKey] = $condition;
+                    $this->baseFile[] = $condition;
                 }
             }
         }
@@ -138,9 +139,9 @@ class Combiner
     public function toString()
     {
         $string = $this->head;
-
+        
         foreach ($this->baseFile as $condition) {
-            $string .= $condition->toString() . PHP_EOL;
+            $string .= $condition->toString() . "\n\r";
         }
 
         return $string;
