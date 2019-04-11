@@ -39,4 +39,11 @@ interface RecordInterface
      * @return mixed
      */
     public function getValue(string $key, $default = null);
+
+    /**
+     * @param string $key
+     * @param null $value
+     * @return mixed
+     */
+    public function setValue(string $key, $value);
 }

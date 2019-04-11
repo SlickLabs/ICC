@@ -69,6 +69,16 @@ class ConditionHead extends \ICC\Record\AbstractRecord
     }
 
     /**
+     * @param $key
+     * @param null $default
+     * @return null
+     */
+    public function setValue(string $key, $value = null)
+    {
+        return $this->values[$key] = $value;
+    }
+
+    /**
      * @return array
      */
     public static function getFields()

@@ -8,6 +8,7 @@
 
 namespace ICC;
 
+use ICC\Record\Condition;
 use ICC\Record\RecordInterface;
 
 /**
@@ -29,6 +30,11 @@ class Combiner
     /**
      * @var
      */
+    protected $stringHead;
+
+    /**
+     * @var
+     */
     protected $head;
 
     /**
@@ -44,13 +50,18 @@ class Combiner
         'single' => []
     ];
 
+    protected $supplierMap = [];
+
+    protected $fileResult = [];
+
     /**
      * Combiner constructor.
      * @param ReaderInterface $reader
      */
-    public function __construct(ReaderInterface $reader)
+    public function __construct(ReaderInterface $reader, array $supplierMap = [])
     {
         $this->reader = $reader;
+        $this->supplierMap = $supplierMap;
     }
 
     /**
@@ -63,28 +74,31 @@ class Combiner
 
         foreach ($files as $file) {
 
-            $fileResult = $this->reader->read(new File($file['id'], $file['path']));
+            $this->fileResult = $this->reader->read(new File($file['id'], $file['path']));
+
+            $this->head = $this->reader->getHead(new File($file['id'], $file['path']));
 
             if (true === $first) {
                 $first = false;
-                $this->setBaseFile($fileResult);
-                $this->setHead($this->reader->getHeadAsString(new File($file['id'], $file['path'])));
+                $this->setBaseFile();
+                $this->setStringHead($this->reader->getHeadAsString(new File($file['id'], $file['path'])));
                 continue;
             }
 
-            foreach ($fileResult as $key => $condition) {
+            foreach ($this->fileResult as $key => $condition) {
 
                 if (!$condition instanceof RecordInterface) {
                     continue;
                 }
 
+                $this->conditionAddSupplier($condition);
+
                 if (isset($this->baseMap[$condition->getType()][$condition->getKey()])) {
                     $matchKey = $this->baseMap[$condition->getType()][$condition->getKey()];
                     $baseCondition = $this->baseFile[$matchKey];
 
-                    $baseDiscount = $baseCondition->getValue('Discount1');
-
-                    $discount = $condition->getValue('Discount1');
+                    $baseDiscount = $this->getConditionDiscount($baseCondition);
+                    $discount = $this->getConditionDiscount($condition);
 
                     // Discount is 3% more than base discount
                     $discountDivergence = ($discount - $baseDiscount) / 100;
@@ -111,18 +125,25 @@ class Combiner
     /**
      * @param array $fileResult
      */
-    public function setBaseFile(array $fileResult)
+    protected function setBaseFile()
     {
-        foreach ($fileResult as $key => $condition) {
+        foreach ($this->fileResult as $key => $condition) {
+            $this->conditionAddSupplier($condition);
+
             $this->baseMap[$condition->getType()][$condition->getKey()] = $key;
         }
 
-        $this->baseFile = $fileResult;
+        $this->baseFile = $this->fileResult;
     }
 
     public function getBaseFile()
     {
         return $this->baseFile;
+    }
+
+    public function removeRow($key)
+    {
+        unset($this->baseFile[$key]);
     }
 
     /**
@@ -138,7 +159,7 @@ class Combiner
      */
     public function toString()
     {
-        $string = $this->head;
+        $string = $this->stringHead;
         
         foreach ($this->baseFile as $condition) {
             $string .= $condition->toString() . "\r\n";
@@ -150,8 +171,25 @@ class Combiner
     /**
      * @param $head
      */
-    public function setHead($head)
+    public function setStringHead($head)
     {
-        $this->head = $head;
+        $this->stringHead = $head;
+    }
+
+    /**
+     * @param RecordInterface $condition
+     */
+    protected function conditionAddSupplier(RecordInterface $condition)
+    {
+        $condition->setValue('Supplier', $this->head['CustomerId']);
+
+        if (isset($this->supplierMap[$this->head['CustomerId']])) {
+            $condition->setValue('SupplierShort', $this->supplierMap[$this->head['CustomerId']]);
+        }
+    }
+
+    public function getConditionDiscount(Condition $condition)
+    {
+        return (float) $condition->getValue('Discount1') + $condition->getValue('Discount2') + $condition->getValue('Discount3');
     }
 }

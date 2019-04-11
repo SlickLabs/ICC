@@ -66,6 +66,20 @@ class Condition extends AbstractRecord
             'start' => 122,
             'length' => 8,
         ],
+
+        // There are optional parameters for our own benefit
+        9 => [
+            'key' => 'SupplierShort',
+            'name' => 'SupplierShort',
+            'start' => 150,
+            'length' => 2,
+        ],
+        10 => [
+            'key' => 'Supplier',
+            'name' => 'Supplier',
+            'start' => 152,
+            'length' => 8,
+        ],
     ];
 
     /**
@@ -138,6 +152,16 @@ class Condition extends AbstractRecord
     }
 
     /**
+     * @param $key
+     * @param null $default
+     * @return null
+     */
+    public function setValue(string $key, $value)
+    {
+        return $this->values[$key] = $value;
+    }
+
+    /**
      * @return array
      */
     public static function getFields()
@@ -164,5 +188,10 @@ class Condition extends AbstractRecord
         }
 
         return $string;
+    }
+
+    public function getTotalDiscountPercentage()
+    {
+        return (float) $this->getValue('Discount1') + $this->getValue('Discount2') + $this->getValue('Discount3');
     }
 }
