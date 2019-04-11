@@ -183,7 +183,7 @@ class Combiner
     {
         if (isset($this->supplierMap[$this->head['CustomerId']])) {
             $supplier = $this->supplierMap[$this->head['CustomerId']];
-            $description . ' ' . $condition->getValue('Description');
+            $description = $supplier . ' ' . $condition->getValue('Description');
 
             $condition->setValue('Description', $description);
         }
