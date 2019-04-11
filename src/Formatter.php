@@ -130,7 +130,7 @@ class Formatter implements FormatterInterface
 
         $string = '';
         foreach ($lines as $line) {
-            $string .= $line . PHP_EOL;
+            $string .= $line . "\r\n";
         }
         return $string;
     }
