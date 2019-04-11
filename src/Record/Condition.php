@@ -66,28 +66,6 @@ class Condition extends AbstractRecord
             'start' => 122,
             'length' => 8,
         ],
-
-        // There are optional parameters for our own benefit
-        9 => [
-            'key' => 'Empty',
-            'name' => 'Empty',
-            'start' => 130,
-            'length' => 20,
-        ],
-
-        // There are optional parameters for our own benefit
-        10 => [
-            'key' => 'SupplierShort',
-            'name' => 'SupplierShort',
-            'start' => 150,
-            'length' => 2,
-        ],
-        11 => [
-            'key' => 'Supplier',
-            'name' => 'Supplier',
-            'start' => 152,
-            'length' => 8,
-        ],
     ];
 
     /**

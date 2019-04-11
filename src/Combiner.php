@@ -181,10 +181,11 @@ class Combiner
      */
     protected function conditionAddSupplier(RecordInterface $condition)
     {
-        $condition->setValue('Supplier', $this->head['CustomerId']);
-
         if (isset($this->supplierMap[$this->head['CustomerId']])) {
-            $condition->setValue('SupplierShort', $this->supplierMap[$this->head['CustomerId']]);
+            $supplier = $this->supplierMap[$this->head['CustomerId']];
+            $description . ' ' . $condition->getValue('Description');
+
+            $condition->setValue('Description', $description);
         }
     }
 
